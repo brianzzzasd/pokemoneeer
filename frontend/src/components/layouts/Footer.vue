@@ -1,60 +1,18 @@
 <template>
-    <footer class="bg-white" aria-labelledby="footer-heading">
-      <h2 id="footer-heading" class="sr-only">Footer</h2>
-      <div class="mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8">
-        <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div class="space-y-8 xl:col-span-1">
-            <img class="h-10" src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=300" alt="Company name" />
-            <p class="text-base text-gray-500">Making the world a better place through constructing elegant hierarchies.</p>
-            <div class="flex space-x-6">
-              <a v-for="item in navigation.social" :key="item.name" :href="item.href" class="text-gray-400 hover:text-gray-500">
-                <span class="sr-only">{{ item.name }}</span>
-                <component :is="item.icon" class="h-6 w-6" aria-hidden="true" />
-              </a>
-            </div>
+    <footer class="bg-white">
+      <div class="mx-auto max-w-7xl overflow-hidden py-12 px-6 lg:px-8">
+        <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+          <div v-for="item in navigation.main" :key="item.name" class="px-5 py-2">
+            <a :href="item.href" class="text-base text-gray-500 hover:text-gray-900">{{ item.name }}</a>
           </div>
-          <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div class="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 class="text-base font-medium text-gray-900">Solutions</h3>
-                <ul role="list" class="mt-4 space-y-4">
-                  <li v-for="item in navigation.solutions" :key="item.name">
-                    <a :href="item.href" class="text-base text-gray-500 hover:text-gray-900">{{ item.name }}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="mt-12 md:mt-0">
-                <h3 class="text-base font-medium text-gray-900">Support</h3>
-                <ul role="list" class="mt-4 space-y-4">
-                  <li v-for="item in navigation.support" :key="item.name">
-                    <a :href="item.href" class="text-base text-gray-500 hover:text-gray-900">{{ item.name }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 class="text-base font-medium text-gray-900">Company</h3>
-                <ul role="list" class="mt-4 space-y-4">
-                  <li v-for="item in navigation.company" :key="item.name">
-                    <a :href="item.href" class="text-base text-gray-500 hover:text-gray-900">{{ item.name }}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="mt-12 md:mt-0">
-                <h3 class="text-base font-medium text-gray-900">Legal</h3>
-                <ul role="list" class="mt-4 space-y-4">
-                  <li v-for="item in navigation.legal" :key="item.name">
-                    <a :href="item.href" class="text-base text-gray-500 hover:text-gray-900">{{ item.name }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+        </nav>
+        <div class="mt-8 flex justify-center space-x-6">
+          <a v-for="item in navigation.social" :key="item.name" :href="item.href" class="text-gray-400 hover:text-gray-500">
+            <span class="sr-only">{{ item.name }}</span>
+            <component :is="item.icon" class="h-6 w-6" aria-hidden="true" />
+          </a>
         </div>
-        <div class="mt-12 border-t border-gray-200 pt-8">
-          <p class="text-base text-gray-400 xl:text-center">&copy; 2020 Your Company, Inc. All rights reserved.</p>
-        </div>
+        <p class="mt-8 text-center text-base text-gray-400">&copy; 2020 Your Company, Inc. All rights reserved.</p>
       </div>
     </footer>
   </template>
@@ -63,29 +21,13 @@
   import { defineComponent, h } from 'vue'
   
   const navigation = {
-    solutions: [
-      { name: 'Marketing', href: '#' },
-      { name: 'Analytics', href: '#' },
-      { name: 'Commerce', href: '#' },
-      { name: 'Insights', href: '#' },
-    ],
-    support: [
-      { name: 'Pricing', href: '#' },
-      { name: 'Documentation', href: '#' },
-      { name: 'Guides', href: '#' },
-      { name: 'API Status', href: '#' },
-    ],
-    company: [
+    main: [
       { name: 'About', href: '#' },
       { name: 'Blog', href: '#' },
       { name: 'Jobs', href: '#' },
       { name: 'Press', href: '#' },
+      { name: 'Accessibility', href: '#' },
       { name: 'Partners', href: '#' },
-    ],
-    legal: [
-      { name: 'Claim', href: '#' },
-      { name: 'Privacy', href: '#' },
-      { name: 'Terms', href: '#' },
     ],
     social: [
       {
