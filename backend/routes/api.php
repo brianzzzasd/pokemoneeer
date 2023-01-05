@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('user', [UserController::class, 'createUser']);
 
 Route::group(['prefix' => 'pokemon'], function() {
-    // Route::('get')
+    Route::post('favorite', [PokemonController::class, 'addFavorite']);
+    Route::post('hate', [PokemonController::class, 'addHate']);
+    Route::post('like', [PokemonController::class, 'addLike']);
+
+    Route::delete('favorite/{id}', [PokemonController::class, 'deleteFavorite']);
+    Route::delete('hate/{id}', [PokemonController::class, 'deleteHate']);
+    Route::delete('like/{id}', [PokemonController::class, 'deleteLike']);
 });

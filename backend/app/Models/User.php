@@ -4,8 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Pokemons\Hated;
-use App\Models\Pokemons\Liked;
+use App\Models\Pokemons\Hate;
+use App\Models\Pokemons\Like;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,13 +45,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function hated()
+    public function hate()
     {
-        return $this->hasMany(Hated::class);
+        return $this->hasMany(Hate::class);
     }
 
-    public function liked()
+    public function like()
     {
-        return $this->hasMany(Liked::class);
+        return $this->hasMany(Like::class);
     }
 }

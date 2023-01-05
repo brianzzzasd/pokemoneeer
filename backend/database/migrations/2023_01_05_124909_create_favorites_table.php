@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('likeds', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('pokemon_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likeds');
+        Schema::dropIfExists('favorites');
     }
 };

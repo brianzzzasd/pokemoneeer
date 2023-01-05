@@ -4,8 +4,11 @@ namespace App\Models\Pokemons;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Hated extends Model
+class Like extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
 }
