@@ -57,8 +57,7 @@ export default {
                 <tr>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Types</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
                   <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                     <span class="sr-only">Edit</span>
                   </th>
@@ -84,13 +83,13 @@ export default {
                       </div>
                     </div>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    test
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ pokemon.role }}</td>
-                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-6">
+                    <a href="#" class="pr-2 text-indigo-600 hover:text-indigo-900"
+                      >Favorite</a>
+                    <a href="#" class="pr-2 text-indigo-600 hover:text-indigo-900"
+                      >Like</a>
                     <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                      >Edit<span class="sr-only">, {{ pokemon.name }}</span></a
+                      >Hate</a
                     >
                   </td>
                 </tr>
@@ -113,7 +112,7 @@ export default {
 
 #pokes {
   display: block;
-  overflow: scroll;
-  height: 600px;
+  max-height: 600px;
+  overflow-y: scroll;
 }
 </style>
