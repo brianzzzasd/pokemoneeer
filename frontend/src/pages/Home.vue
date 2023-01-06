@@ -1,23 +1,40 @@
+<script setup>
+import { usePokemon } from '../store/pokemon.js'
+import InfiniteLoading from '../components/organisims/InfiniteLoading.vue';
+</script>
+
 <script>
-import axios from 'axios';
+import { mapState, mapActions } from 'pinia'
 import TypeBadge from '../components/atoms/TypeBadge.vue'
 
 export default {
-  components: { TypeBadge },
-  data() {
+  name: 'Home',
+  data () {
     return {
-      pokemons: [],
-      loading: true,
+      page: 1,
     }
   },
-  async mounted() {
-    await this.fetchPokemons()
-    console.log(this.pokemons)
-    this.loading = false
+  components: { TypeBadge },
+  computed: {
+    ...mapState(usePokemon, { pokemons: 'results', fetching: 'isFetching' })
   },
   methods: {
-    async fetchPokemons() {
-      this.pokemons = await (await axios.get('http://localhost:8000/api/pokemon')).data.data
+    ...mapActions(usePokemon, ['fetchPokemons']),
+    async load(state) {
+      state.loading()
+      try {
+        const offset = this.pokemons.length
+        const response = await this.fetchPokemons(offset)
+        
+        if (response.length < 20)
+          state.complete();
+        else
+          state.loaded();
+        
+        this.page++;
+      } catch (error) {
+        state.error()
+      }
     }
   },
 }
@@ -34,9 +51,9 @@ export default {
     <div class="mt-8 flex flex-col">
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-300" v-if="!loading">
-              <thead class="bg-gray-50">
+          <div id="pokes" class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300" v-if="!fetching">
+              <thead class="bg-gray-50 fixed">
                 <tr>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Types</th>
@@ -79,9 +96,24 @@ export default {
                 </tr>
               </tbody>
             </table>
+            <infinite-loading target="#pokes" @infinite="load"></infinite-loading>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style scoped>
+.fixed {
+  top: 0;
+  z-index: 2;
+  position: sticky;
+  background-color: white;
+}
+
+#pokes {
+  display: block;
+  overflow: scroll;
+  height: 600px;
+}
+</style>
