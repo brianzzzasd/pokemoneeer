@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PokemonCollection;
 use App\Models\Pokemons\Favorite;
 use App\Models\Pokemons\Hate;
 use App\Models\Pokemons\Like;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PokemonController extends Controller
 {
+    public function pokemon(Request $request)
+    {
+        $offset = $request->offset ?? 0;
+        $limit = $request->limit ?? 20;
+
+        $pokemons = DB::table('pokemon')->skip($offset)->take($limit)->get();
+
+        return new PokemonCollection($pokemons);
+    }
+
     public function addHate(Request $request)
     {
        $hate = Hate::create([

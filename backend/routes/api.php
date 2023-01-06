@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('user', [UserController::class, 'createUser']);
 
 Route::group(['prefix' => 'pokemon'], function() {
+    Route::get('/', [PokemonController::class, 'pokemon']);
     Route::post('favorite', [PokemonController::class, 'addFavorite']);
     Route::post('hate', [PokemonController::class, 'addHate']);
     Route::post('like', [PokemonController::class, 'addLike']);

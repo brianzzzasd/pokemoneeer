@@ -2,10 +2,14 @@
 import "./assets/tailwind.css";
 import NavBar from './components/layouts/NavBar.vue'
 import Footer from './components/layouts/Footer.vue'
+
 </script>
 
 <template>
   <NavBar />
+    <div class="py-10 px-12">
+      <RouterView />
+    </div>
   <Footer />
 </template>
 
