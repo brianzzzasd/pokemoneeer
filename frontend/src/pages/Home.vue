@@ -1,43 +1,36 @@
 <script setup>
+import { ref } from 'vue';
 import { usePokemon } from '../store/pokemon.js'
-import InfiniteLoading from '../components/organisims/InfiniteLoading.vue';
-</script>
+import { storeToRefs } from "pinia";
 
-<script>
-import { mapState, mapActions } from 'pinia'
 import TypeBadge from '../components/atoms/TypeBadge.vue'
+import InfiniteLoading from "v3-infinite-loading";
 
-export default {
-  name: 'Home',
-  data () {
-    return {
-      page: 1,
-    }
-  },
-  components: { TypeBadge },
-  computed: {
-    ...mapState(usePokemon, { pokemons: 'results', fetching: 'isFetching' })
-  },
-  methods: {
-    ...mapActions(usePokemon, ['fetchPokemons']),
-    async load(state) {
-      state.loading()
-      try {
-        const offset = this.pokemons.length
-        const response = await this.fetchPokemons(offset)
-        
-        if (response.length < 20)
-          state.complete();
-        else
-          state.loaded();
-        
-        this.page++;
-      } catch (error) {
-        state.error()
-      }
-    }
-  },
+import "v3-infinite-loading/lib/style.css";
+
+const store = usePokemon();
+
+const page = ref(0);
+const { pokemons } = storeToRefs(store);
+const { fetchPokemons } = store;
+
+const loadData = async $state => {
+  $state.loading()
+  try {
+    const offset = pokemons.value.length
+    console.log(offset)
+    const response = await fetchPokemons(offset)
+
+    if (response.length < 20)
+      $state.complete();
+    else
+      $state.loaded();
+
+  } catch (error) {
+    $state.error()
+  }
 }
+
 </script>
 
 <template>
@@ -52,7 +45,7 @@ export default {
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div id="pokes" class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-300" v-if="!fetching">
+            <table class="min-w-full divide-y divide-gray-300">
               <thead class="bg-gray-50 fixed">
                 <tr>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
@@ -94,8 +87,8 @@ export default {
                   </td>
                 </tr>
               </tbody>
+              <InfiniteLoading @infinite="loadData" />
             </table>
-            <infinite-loading target="#pokes" @infinite="load"></infinite-loading>
           </div>
         </div>
       </div>

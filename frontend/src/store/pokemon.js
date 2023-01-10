@@ -35,7 +35,5 @@ export const usePokemon = defineStore('pokemon-store', {
 
       this.fetching = false;
     },
-
-
   }
 })
