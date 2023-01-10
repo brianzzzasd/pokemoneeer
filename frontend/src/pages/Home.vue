@@ -4,9 +4,7 @@ import { usePokemon } from '../store/pokemon.js'
 import { storeToRefs } from "pinia";
 
 import TypeBadge from '../components/atoms/TypeBadge.vue'
-import InfiniteLoading from "v3-infinite-loading";
-
-import "v3-infinite-loading/lib/style.css";
+import InfiniteLoading from '../components/organisims/InfiniteLoading.vue'
 
 const store = usePokemon();
 
