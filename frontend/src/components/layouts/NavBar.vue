@@ -4,8 +4,8 @@
         <div class="flex h-16 justify-between">
           <div class="flex px-2 lg:px-0">
             <div class="flex flex-shrink-0 items-center">
-              <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-              <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
+              <img class="block h-8 w-auto lg:hidden" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/100.png" alt="Your Company" />
+              <img class="hidden h-8 w-auto lg:block" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/100.png" alt="Your Company" />
             </div>
             <div class="hidden lg:ml-6 lg:flex lg:space-x-8">
               <a href="#" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">Pokemon</a>
