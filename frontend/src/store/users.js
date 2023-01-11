@@ -1,35 +1,35 @@
-import fetch from '../plugins/fetch';
 import { defineStore } from 'pinia'
+import fetch from '../plugins/fetch'
 
 export const useUsers = defineStore('users-store', {
   state: () => ({
     users: [],
-    fetching: false
+    fetching: false,
   }),
 
   getters: {
     results(state) {
-      return state.users;
+      return state.users
     },
 
     isFetching(state) {
-      return state.fetching;
-    }
+      return state.fetching
+    },
   },
 
   actions: {
     async fetchUsers(offset = 0) {
-      this.fetching = true;
+      this.fetching = true
       try {
-        const response = await fetch.get(`/users?offset=${offset}`);
+        const response = await fetch.get(`/users?offset=${offset}`)
         this.users.push(...response.data.users)
-      } catch (err) {
+      }
+      catch (err) {
         this.users = []
         console.error(err)
       }
 
-      this.fetching = false;
+      this.fetching = false
     },
   },
-});
-
+})

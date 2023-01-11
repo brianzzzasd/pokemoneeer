@@ -1,13 +1,12 @@
 <script setup>
-import Spinner from "../molecules/Spinner.vue";
-import { onMounted, ref, toRefs, onUnmounted, watch, nextTick } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import Spinner from '../molecules/Spinner.vue'
 import {
-  startObserver,
-  stateHandler,
   initEmitter,
   isVisible,
-} from "../../plugins/utils.js";
-const emit = defineEmits(["infinite"]);
+  startObserver,
+  stateHandler,
+} from '../../plugins/utils.js'
 const props = defineProps({
   top: { type: Boolean, required: false },
   target: { type: [String, Boolean], required: false },
@@ -15,12 +14,13 @@ const props = defineProps({
   identifier: { required: false },
   firstload: { type: Boolean, required: false, default: true },
   slots: { type: Object, required: false },
-});
-let observer = null;
-const infiniteLoading = ref(null);
-const state = ref("ready");
-const { top, firstload, target, distance } = props;
-const { identifier } = toRefs(props);
+})
+const emit = defineEmits(['infinite'])
+let observer = null
+const infiniteLoading = ref(null)
+const state = ref('ready')
+const { top, firstload, target, distance } = props
+const { identifier } = toRefs(props)
 const params = {
   infiniteLoading,
   target,
@@ -29,55 +29,56 @@ const params = {
   distance,
   prevHeight: 0,
   parentEl: null,
-};
-params.emit = initEmitter(emit, stateHandler(state), params);
+}
+params.emit = initEmitter(emit, stateHandler(state), params)
 const stateWatcher = () =>
-  watch(state, async newVal => {
-    const parentEl = params.parentEl || document.documentElement;
-    await nextTick();
-    if (newVal == "loaded" && top)
-      parentEl.scrollTop = parentEl.scrollHeight - params.prevHeight;
-    if (newVal == "loaded" && isVisible(infiniteLoading.value, params.parentEl))
-      params.emit();
-    if (newVal == "complete") observer.disconnect();
-  });
+  watch(state, async (newVal) => {
+    const parentEl = params.parentEl || document.documentElement
+    await nextTick()
+    if (newVal === 'loaded' && top)
+      parentEl.scrollTop = parentEl.scrollHeight - params.prevHeight
+    if (newVal === 'loaded' && isVisible(infiniteLoading.value, params.parentEl))
+      params.emit()
+    if (newVal === 'complete')
+      observer.disconnect()
+  })
 const identifierWatcher = () =>
   watch(identifier, () => {
-    state.value = "ready";
-    observer.disconnect();
-    observer = startObserver(params);
-  });
+    state.value = 'ready'
+    observer.disconnect()
+    observer = startObserver(params)
+  })
 onMounted(() => {
-  observer = startObserver(params);
-  stateWatcher();
-  if (identifier) identifierWatcher();
-});
+  observer = startObserver(params)
+  stateWatcher()
+  if (identifier.value)
+    identifierWatcher()
+})
 onUnmounted(() => {
-  observer.disconnect();
-});
+  observer.disconnect()
+})
 </script>
 
 <template>
   <div ref="infiniteLoading">
     <slot
-      v-if="state == 'loading'"
+      v-if="state === 'loading'"
       name="spinner"
     >
       <Spinner />
     </slot>
     <slot
-      v-if="state == 'complete'"
+      v-if="state === 'complete'"
       name="complete"
     >
       <span> {{ slots?.complete || "No more results!" }} </span>
     </slot>
     <slot
-      v-if="state == 'error'"
+      v-if="state === 'error'"
       name="error"
       :retry="params.emit"
     >
-      <span class="state-error">
-      </span>
+      <span class="state-error" />
     </slot>
   </div>
 </template>

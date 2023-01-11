@@ -1,25 +1,27 @@
-<template>
-    <span 
-        class="inline-flex rounded-ful px-2 text-xs font-semibold leading-5 text-white capitalize"
-        :class="getClass()"
-    >
-        {{ type }}
-    </span>
-</template>
 <script>
 export default {
   name: 'TypeBadge',
   props: {
     type: String,
-    default: 'grass'
+    default: grass,
   },
   methods: {
-    getClass() {  
+    getClass() {
       return this.type
-    }
-  }
+    },
+  },
 }
 </script>
+
+<template>
+  <span
+    class="inline-flex rounded-ful px-2 text-xs font-semibold leading-5 text-white capitalize"
+    :class="getClass()"
+  >
+    {{ type }}
+  </span>
+</template>
+
 <style scoped>
   .normal {
     background-color: #A8A878;
@@ -38,7 +40,7 @@ export default {
     border-top-color: #98D8D8;
     border-bottom-color: #807870;
   }
-  
+
   .grass {
     background-color: #78C850;
     border-top-color: #C0F860;

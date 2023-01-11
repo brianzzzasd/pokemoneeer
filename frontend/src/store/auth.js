@@ -1,13 +1,13 @@
-import fetch from '../plugins/fetch'
 import { defineStore } from 'pinia'
+import fetch from '../plugins/fetch'
 
 export const useAuth = defineStore('auth-store', {
   state: () => ({
     user: null,
     token: null,
-    fetching: false
+    fetching: false,
   }),
-  
+
   getters: {
     resultUser(state) {
       return state.user
@@ -38,21 +38,21 @@ export const useAuth = defineStore('auth-store', {
           data: response.data,
           code: 'ok',
         }
-      } catch (err) {
+      }
+      catch (err) {
         return {
           errors: [err.response.data.message],
           code: 'error',
         }
       }
-
-      this.fetching = false
     },
 
     async logout() {
       try {
         localStorage.removeItem('token')
         this.user = null
-      } catch (err) {
+      }
+      catch (err) {
         console.error('Error logging out:', err)
         return err
       }
@@ -71,14 +71,15 @@ export const useAuth = defineStore('auth-store', {
           data: response.data,
           code: 'ok',
         }
-      } catch (err) {
+      }
+      catch (err) {
         return {
           errors: Object.values(err.response.data.errors).flat(),
           code: 'error',
         }
       }
     },
-    
+
     async updateUser(data) {
       try {
         const response = await fetch.post('/user', data)
@@ -88,7 +89,8 @@ export const useAuth = defineStore('auth-store', {
           data: response.data,
           code: 'ok',
         }
-      } catch (err) {
+      }
+      catch (err) {
         return {
           errors: Object.values(err.response.data.errors).flat(),
           code: 'error',
@@ -102,7 +104,8 @@ export const useAuth = defineStore('auth-store', {
       try {
         const response = await fetch.get('/user')
         this.user = response.data.user
-      } catch (err) {
+      }
+      catch (err) {
         this.user = null
         console.error('Error fetching user:', err)
         return err
@@ -110,16 +113,5 @@ export const useAuth = defineStore('auth-store', {
 
       this.fetching = false
     },
-
-    async requestCookie() {
-      this.fetching = true
-
-      try {
-        const response = await fetch.get('http://localhost:8000/sanctum/csrf-cookie')
-      } catch (err) {
-        console.error('Error requesting cookie:', err)
-        return err
-      }
-    },
-  }
+  },
 })

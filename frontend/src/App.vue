@@ -1,5 +1,5 @@
 <script setup>
-import "./assets/tailwind.css";
+import './assets/tailwind.css'
 import NavBar from './components/layouts/NavBar.vue'
 import Footer from './components/layouts/Footer.vue'
 </script>
@@ -10,7 +10,7 @@ import Footer from './components/layouts/Footer.vue'
   </template>
   <template v-else>
     <NavBar />
-      <RouterView class="mt-8"/>
+    <RouterView class="mt-8" />
     <Footer />
   </template>
 </template>

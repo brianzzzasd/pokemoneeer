@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
-      <div class="spinner" />
-    </div>
-  </template>
-  
+  <div class="container">
+    <div class="spinner" />
+  </div>
+</template>
+
   <style scoped>
   .container {
     box-sizing: initial;
