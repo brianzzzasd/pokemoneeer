@@ -15,6 +15,14 @@ const routes = [
         }
     },
     { 
+        path: '/register', 
+        name: 'Register',
+        component: () => import('./pages/Register.vue'),
+        meta: {
+            hideNavbar: true,
+        }
+    },
+    { 
         path: '/',
         name: 'Pokemons',
         component: () => import('./pages/Pokemons.vue'),
@@ -26,6 +34,14 @@ const routes = [
         path: '/users',
         name: 'Users',
         component: () => import('./pages/Users.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    { 
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('./pages/Profile.vue'),
         meta: {
             requiresAuth: true,
         }

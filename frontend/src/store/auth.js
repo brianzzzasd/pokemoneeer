@@ -55,21 +55,34 @@ export const useAuth = defineStore('auth-store', {
       }
     },
 
-    async register(email, password) {
+    async register(data) {
       this.fetching = true
 
       try {
-        const response = await fetch.post('/auth/register', { email, password })
-        this.token = response.data.token
+        const response = await fetch.post('/auth/register', data)
+        console.log(response)
+        localStorage.setItem('token', response.data.token)
         this.user = response.data.user
       } catch (err) {
-        this.token = null
+        localStorage.removeItem('token')
         this.user = null
+
         console.error('Error registering:', err)
         return err
       }
     },
     
+    async updateUser(data) {
+      try {
+        const response = await fetch.post('/user', data)
+        console.log(response)
+        this.user = response.data.user
+      } catch (err) {
+        console.error('Error updating user:', err)
+        return err
+      }
+    },
+
     async fetchUser() {
       this.fetching = true
 

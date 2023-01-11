@@ -1,22 +1,27 @@
 <script setup>
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { ref } from 'vue';
-import { usePokemon } from '../store/pokemon.js'
+import { onMounted, ref } from 'vue';
+import { useUsers } from '../store/users.js'
 import { storeToRefs } from "pinia";
 import Card from '../components/molecules/Card.vue'
-const store = usePokemon();
+
+const store = useUsers();
 
 const page = ref(0);
-const { pokemons } = storeToRefs(store);
-const { fetchPokemons } = store;
+const { users } = storeToRefs(store);
+const { fetchUsers } = store;
+
+onMounted(async () => {
+  await fetchUsers(0);
+});
 
 const loadData = async $state => {
   $state.loading()
   try {
-    const offset = pokemons.value.length
-    const response = await fetchPokemons(offset)
+    const offset = users.value.length
+    const response = await fetchUsers(offset)
     
-    if (response.length < 20)
+    if (response.length < 6)
       $state.complete();
     else
       $state.loaded();
@@ -32,23 +37,11 @@ const loadData = async $state => {
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">Users</h1>
-        <p class="mt-2 text-sm text-gray-700">List of Pokemons to chose from!</p>
-      </div>
-      <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
-        <div class="w-full max-w-lg lg:max-w-xs">
-          <label for="search" class="sr-only">Search</label>
-          <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <MagnifyingGlassIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </div>
-            <input id="search" name="search" class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" placeholder="Search" type="search" />
-          </div>
-        </div>
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="flex flex-wrap">
-        <div class="w-1/3 mx-2"><Card /></div>
+      <div class="flex flex-wrap justify-around mt-8 mx-10">
+        <div class="w-1/3 mx-2" v-for="user in users" :key="user.email"><Card :user="user"/></div>
       </div>
     </div>
   </div>

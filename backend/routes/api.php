@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('users', [UserController::class, 'users']);
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
@@ -31,8 +30,11 @@ Route::group(['prefix' => 'auth'], function() {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('users', [UserController::class, 'users']);
+
     Route::group(['prefix' => 'user'], function() {
         Route::get('/', [UserController::class, 'user']);
+        Route::post('/', [UserController::class, 'updateUser']);
     });
 
     Route::group(['prefix' => 'pokemon'], function() {

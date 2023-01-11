@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Stmt\TryCatch;
 
 class AuthController extends Controller
 {
@@ -17,7 +16,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return object
      */
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
         try {
             $validateUser = Validator::make($request->all(), [

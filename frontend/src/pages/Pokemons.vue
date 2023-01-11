@@ -128,7 +128,7 @@ const loadData = async $state => {
 }
 
 .hate-icon {
-  fill: #FA350B;
+  fill: #F08030;
 }
 
 .hate-icon:hover {
@@ -136,7 +136,7 @@ const loadData = async $state => {
 }
 
 .like-icon {
-  fill: #0EDFF1;
+  fill: #98D8D8;
 }
 
 .like-icon:hover {
@@ -144,7 +144,7 @@ const loadData = async $state => {
 }
 
 .favorite-icon {
-  fill: #F5C80A;
+  fill: #F8D030;
 }
 
 .favorite-icon:hover {
