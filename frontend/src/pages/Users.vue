@@ -47,7 +47,7 @@ const loadData = async ($state) => {
         <div
           v-for="user in users"
           :key="user.email"
-          class="w-1/3 mx-1"
+          class="w-5/12 mx-1"
         >
           <Card :user="user" />
         </div>

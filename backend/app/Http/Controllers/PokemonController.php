@@ -37,6 +37,13 @@ class PokemonController extends Controller
     {
         $user = auth('sanctum')->user();
 
+        if ($user->hates->where('pokemon_id', $id)->first()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You already hate this pokemon, please don\'t hate it again :(',
+            ], 400);
+        }
+
         if ($user->hates->count() === 3) {
             return response()->json([
                 'status' => false,
@@ -66,6 +73,13 @@ class PokemonController extends Controller
     public function addLike($id)
     {
         $user = auth('sanctum')->user();
+
+        if ($user->likes->where('pokemon_id', $id)->first()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You already like this pokemon, please choose another :)',
+            ], 400);
+        }
 
         if ($user->likes->count() === 3) {
             return response()->json([
