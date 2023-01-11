@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -21,7 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
 Route::post('user', [UserController::class, 'createUser']);
+Route::get('users', [UserController::class, 'users']);
 
 Route::group(['prefix' => 'pokemon'], function() {
     Route::get('/', [PokemonController::class, 'pokemon']);

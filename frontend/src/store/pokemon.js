@@ -1,5 +1,4 @@
-
-import axios from 'axios';
+import fetch from '../plugins/fetch';
 import { defineStore } from 'pinia'
 
 export const usePokemon = defineStore('pokemon-store', {
@@ -23,8 +22,8 @@ export const usePokemon = defineStore('pokemon-store', {
   actions: {
     async fetchPokemons(offset = 0) {
       this.fetching = true;
-      const response = await axios.get(`http://localhost:8000/api/pokemon?offset=${offset}`);
-      
+      const response = await fetch.get(`/pokemon?offset=${offset}`);
+
       try {
         this.pokemons.push(...response.data.data)
       } catch (err) {
@@ -34,6 +33,8 @@ export const usePokemon = defineStore('pokemon-store', {
       }
 
       this.fetching = false;
+
+      return response
     },
   }
 })

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -27,5 +28,24 @@ class UserController extends Controller
                 'message' => 'User Created',
             ]);
         }
+    }
+
+    /**
+     * Get Users
+     * @param Request $request
+     *
+     * return Response
+     */
+    public function users(Request $request)
+    {
+        $offset = $request->offset ?? 0;
+        $limit = $request->limit ?? 20;
+
+        $users = DB::table('users')->skip($offset)->take($limit)->get();
+
+        return response()->json([
+            'status' => true,
+            'users' => $users,
+        ]);
     }
 }

@@ -77,13 +77,6 @@ onUnmounted(() => {
       :retry="params.emit"
     >
       <span class="state-error">
-        <span>{{ slots?.error || "Oops something went wrong!" }}</span>
-        <button
-          class="retry"
-          @click="params.emit"
-        >
-          retry
-        </button>
       </span>
     </slot>
   </div>

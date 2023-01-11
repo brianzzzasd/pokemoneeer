@@ -2,21 +2,36 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-import Home from './pages/Home.vue'
-import axios from './plugins/axios'
 
 const store = createPinia()
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', name: 'Home', component: Home },
+        { 
+            path: '/login', 
+            name: 'Login',
+            component: () => import('./pages/Login.vue'),
+            meta: {
+                hideNavbar: true,
+            }
+        },
+        { 
+            path: '/',
+            name: 'Pokemons',
+            component: () => import('./pages/Pokemons.vue') 
+        },
+        { 
+            path: '/users',
+            name: 'Users',
+            component: () => import('./pages/Users.vue')
+        },
     ],
-
 })
 
-createApp(App)
-.use(router)
+const app = createApp(App)
+
+app.use(router)
 .use(store)
-.use(axios, {
-    baseUrl: 'http://localhost:8000/',
-}).mount('#app')
+
+app.mount('#app')

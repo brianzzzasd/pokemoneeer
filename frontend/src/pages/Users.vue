@@ -1,4 +1,5 @@
 <script setup>
+import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { ref } from 'vue';
 import { usePokemon } from '../store/pokemon.js'
 import { storeToRefs } from "pinia";
@@ -16,9 +17,8 @@ const loadData = async $state => {
   $state.loading()
   try {
     const offset = pokemons.value.length
-    console.log(offset)
     const response = await fetchPokemons(offset)
-
+    
     if (response.length < 20)
       $state.complete();
     else
@@ -28,7 +28,6 @@ const loadData = async $state => {
     $state.error()
   }
 }
-
 </script>
 
 <template>
@@ -38,8 +37,19 @@ const loadData = async $state => {
         <h1 class="text-xl font-semibold text-gray-900">Pokemons</h1>
         <p class="mt-2 text-sm text-gray-700">List of Pokemons to chose from!</p>
       </div>
+      <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
+        <div class="w-full max-w-lg lg:max-w-xs">
+          <label for="search" class="sr-only">Search</label>
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <MagnifyingGlassIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+            </div>
+            <input id="search" name="search" class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" placeholder="Search" type="search" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="mt-8 flex flex-col">
+    <div class="mt-2 flex flex-col">
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div id="pokes" class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -75,13 +85,7 @@ const loadData = async $state => {
                     </div>
                   </td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-6">
-                    <a href="#" class="pr-2 text-indigo-600 hover:text-indigo-900"
-                      >Favorite</a>
-                    <a href="#" class="pr-2 text-indigo-600 hover:text-indigo-900"
-                      >Like</a>
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                      >Hate</a
-                    >
+                    Test
                   </td>
                 </tr>
               </tbody>
