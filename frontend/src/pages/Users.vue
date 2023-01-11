@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue';
 import { useUsers } from '../store/users.js'
 import { storeToRefs } from "pinia";
 import Card from '../components/molecules/Card.vue'
+import InfiniteLoading from '../components/organisims/InfiniteLoading.vue'
 
 const store = useUsers();
 
@@ -11,9 +12,9 @@ const page = ref(0);
 const { users } = storeToRefs(store);
 const { fetchUsers } = store;
 
-onMounted(async () => {
-  await fetchUsers(0);
-});
+// onMounted(async () => {
+//   await fetchUsers(0);
+// });
 
 const loadData = async $state => {
   $state.loading()
@@ -39,10 +40,11 @@ const loadData = async $state => {
         <h1 class="text-xl font-semibold text-gray-900">Users</h1>
       </div>
     </div>
-    <div class="flex flex-col">
-      <div class="flex flex-wrap justify-around mt-8 mx-10">
-        <div class="w-1/3 mx-2" v-for="user in users" :key="user.email"><Card :user="user"/></div>
+    <div id="pokes">
+      <div class="flex flex-wrap justify-around mt-8 mx-10 border border-gray-200 rounded pt-5">
+        <div class="w-1/3 mx-1" v-for="user in users" :key="user.email"><Card :user="user"/></div>
       </div>
+      <InfiniteLoading @infinite="loadData" />
     </div>
   </div>
 </template>
@@ -56,7 +58,7 @@ const loadData = async $state => {
 
 #pokes {
   display: block;
-  max-height: 600px;
+  max-height: 700px;
   overflow-y: scroll;
 }
 </style>

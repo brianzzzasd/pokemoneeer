@@ -51,12 +51,13 @@ const password = ref('')
 const onSubmit = async (e) => {
   e.preventDefault()
 
-  await register({
+  register({
     name: name.value,
     email: email.value,
     password: password.value,
+  }).then(() => {
+    router.push('/')
   })
 
-  router.push('/')
 }
 </script>

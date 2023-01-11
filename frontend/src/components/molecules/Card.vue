@@ -30,28 +30,34 @@
     <div class="border-b border-gray-200 mt-5"></div>
     <div class="flex mt-2 text-gray-700">
       <div class="w-1/2">
-        <div>
+        <div class="font-bold">
         Hates
         </div>
         <div class="mt-3">
-          <div v-for="hate in user.hates" class="flex items-center">
+          <div v-if="user.hates.length" v-for="hate in user.hates" class="flex items-center">
             <div>
               <img class="w-5 h-5" :src="hate.pokemon.sprite" alt="">
             </div>
             <div class="ml-2 text-sm">{{ hate.pokemon.name }}</div>
           </div>
+          <div v-else>
+            -
+          </div>
         </div> 
       </div>
       <div class="w-1/2">
-        <div>
+        <div class="font-bold">
         Likes
         </div>
         <div class="mt-3">
-          <div v-for="like in user.likes" class="flex items-center">
+          <div v-if="user.likes.length" v-for="like in user.likes" class="flex items-center">
             <div>
               <img class="w-5 h-5" :src="like.pokemon.sprite" alt="">
             </div>
             <div class="ml-2 text-sm">{{ like.pokemon.name }}</div>
+          </div>
+          <div v-else>
+            -
           </div>
         </div> 
       </div>
