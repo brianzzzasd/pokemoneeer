@@ -86,7 +86,6 @@ const favorite = async (id) => {
 
 const loadData = async ($state) => {
   $state.loading()
-  console.log(filtering.value)
   if (!filtering.value) {
     try {
       const offset = filteredPokemons.value.length

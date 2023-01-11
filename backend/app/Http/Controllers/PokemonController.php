@@ -6,8 +6,8 @@ use App\Http\Resources\PokemonCollection;
 use App\Models\Pokemons\Favorite;
 use App\Models\Pokemons\Hate;
 use App\Models\Pokemons\Like;
+use App\Models\Pokemons\Pokemon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PokemonController extends Controller
 {
@@ -21,8 +21,19 @@ class PokemonController extends Controller
     {
         $offset = $request->offset ?? 0;
         $limit = $request->limit ?? 20;
+        $string = $request->string;
 
-        $pokemons = DB::table('pokemon')->skip($offset)->take($limit)->get();
+        if ($string) {
+            $pokemons = Pokemon::query()
+                ->where(function ($query) use ($string) {
+                    $query->where('name', 'like', '%' . $string . '%')
+                        ->orWhereJsonContains('types', $string);
+                })->get();
+
+            return new PokemonCollection($pokemons);
+        }
+
+        $pokemons = Pokemon::query()->skip($offset)->take($limit)->get();
 
         return new PokemonCollection($pokemons);
     }

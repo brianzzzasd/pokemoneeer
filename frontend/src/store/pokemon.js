@@ -20,12 +20,22 @@ export const usePokemon = defineStore('pokemon-store', {
   },
 
   actions: {
-    async fetchPokemons(offset = 0) {
+    async fetchPokemons(offset = 0, query = '', fromSearch = false) {
       this.fetching = true
-      const response = await fetch.get(`/pokemon?offset=${offset}`)
+      const response = await fetch.get(`/pokemon?offset=${offset}&string=${query}`)
 
       try {
-        this.pokemons.push(...response.data.data)
+        if (query) {
+          this.pokemons = response.data.data
+        }
+
+        else {
+          if (fromSearch)
+            this.pokemons = []
+
+          this.pokemons.push(...response.data.data)
+        }
+
         this.filteredPokemons = this.pokemons
       }
       catch (err) {
@@ -40,17 +50,13 @@ export const usePokemon = defineStore('pokemon-store', {
     },
 
     async filter(query) {
-      if (query === '') {
-        this.filtering = false
-        this.filteredPokemons = this.pokemons
-
-        return
-      }
       this.filtering = true
-      this.filteredPokemons = this.pokemons.filter((pokemon) => {
-        return (
-          pokemon.name.toLowerCase().includes(query.toLowerCase())
-        )
+
+      if (query === '')
+        this.filtering = false
+
+      this.fetchPokemons(0, query, true).then(() => {
+        this.filteredPokemons = this.pokemons
       })
     },
 
