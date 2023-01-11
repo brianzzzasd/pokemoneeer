@@ -17,6 +17,8 @@ After Cloning:
 cd pokemon-test/backend
 cp .env.example .env
 
+composer install 
+
 php artisan migrate:fresh && php artisan key:generate && php artisan serve
 
 php artisan pokemon:fill // to fill pokemons table or you can use the db inside /backend. (pokemon.sql)
