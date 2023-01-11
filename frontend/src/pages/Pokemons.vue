@@ -20,8 +20,17 @@ const descriptions = ref([])
 const buttonText = ref('OK')
 const iconType = ref('')
 
+const timer = ref(null)
+
 const search = () => {
-  store.filter(query.value)
+  if (timer.value) {
+    clearTimeout(timer.value)
+    timer.value = null
+  }
+
+  timer.value = setTimeout(() => {
+    store.filter(query.value)
+  }, 500)
 }
 
 const hate = async (id) => {
@@ -134,7 +143,7 @@ const loadData = async ($state) => {
               class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
               placeholder="Search"
               type="search"
-              @keyup.enter="search()"
+              @keyup="search()"
             >
           </div>
         </div>
