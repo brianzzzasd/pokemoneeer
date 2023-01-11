@@ -38,24 +38,48 @@ export const usePokemon = defineStore('pokemon-store', {
     async addHate(id) {
       try {
         const response = await fetch.post(`pokemon/hate/${id}`)
+
+        return {
+          data: response.data,
+          code: 'ok',
+        }
       } catch (err) {
-        console.error('Error hating Pokemon:', err);
+        return {
+          errors: [err.response.data.message],
+          code: 'error',
+        }
       }
     },
 
     async addLike(id) {
       try {
         const response = await fetch.post(`pokemon/like/${id}`)
+
+        return {
+          data: response.data,
+          code: 'ok',
+        }
       } catch (err) {
-        console.error('Error liking Pokemon:', err);
+        return {
+          errors: [err.response.data.message],
+          code: 'error',
+        }
       }
     },
 
     async addFavorite(id) {
       try {
         const response = await fetch.post(`pokemon/favorite/${id}`)
+
+        return {
+          data: response.data,
+          code: 'ok',
+        }
       } catch (err) {
-        console.error('Error choosing favorite pokemon:', err);
+        return {
+          errors: [err.response.data.message],
+          code: 'error',
+        }
       }
     },
   }

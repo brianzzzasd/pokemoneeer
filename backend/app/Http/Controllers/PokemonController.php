@@ -134,7 +134,7 @@ class PokemonController extends Controller
             'pokemon_id' => $id
         ]);
 
-        if ($user->favorite->count() === 1) {
+        if ($user->favorite->count() > 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'You can only favorite 1 pokemon',

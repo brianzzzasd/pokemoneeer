@@ -7,7 +7,7 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6">
+        <div class="space-y-6">
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
             <div class="mt-1">
@@ -30,12 +30,15 @@
           <div>
             <button @click="onSubmit" class="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">Register</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
+    <Modal :open="open" :title="title" :descriptions="descriptions" :buttonText="buttonText" :iconType="iconType"/>
   </div>
 </template>
+
 <script setup>
+import Modal from '../components/molecules/Modal.vue'
 import { useAuth } from '../store/auth.js'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
@@ -44,20 +47,34 @@ const router = useRouter()
 const store = useAuth()
 const { register } = store
 
+const open = ref(false)
+const title = ref('')
+const descriptions = ref([])
+const buttonText = ref('OK')
+const iconType = ref('')
+
 const name = ref('')
 const email = ref('')
 const password = ref('')
 
-const onSubmit = async (e) => {
-  e.preventDefault()
-
-  register({
+const onSubmit = async () => {
+  const response = await register({
     name: name.value,
     email: email.value,
     password: password.value,
-  }).then(() => {
-    router.push('/')
   })
 
+  if (response.code === 'ok') {
+    window.location.href = "/"
+  } else {
+    open.value = true
+    title.value = 'Error'
+    descriptions.value = response.errors
+    iconType.value = 'danger'
+  }
+
+  setTimeout(() => {
+    open.value = false
+  }, 2000)
 }
 </script>

@@ -91,7 +91,7 @@ onMounted( async () => {
 
 const onLogout = async () => {
   await logout()
-  router.push({ name: 'Login' })
+  router.push('/login')
 }
 </script>
 <style scoped>

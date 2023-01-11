@@ -28,18 +28,21 @@ export const useAuth = defineStore('auth-store', {
 
   actions: {
     async login(email, password) {
-      this.fetching = true
-      
       try {
         const response = await fetch.post('/auth/login', { email, password })
         this.user = response.data.user
 
         localStorage.setItem('token', response.data.token)
+
+        return {
+          data: response.data,
+          code: 'ok',
+        }
       } catch (err) {
-        this.token = null
-        this.user = null
-        console.error('Error logging in:', err)
-        return err
+        return {
+          errors: [err.response.data.message],
+          code: 'error',
+        }
       }
 
       this.fetching = false
@@ -60,26 +63,36 @@ export const useAuth = defineStore('auth-store', {
 
       try {
         const response = await fetch.post('/auth/register', data)
-        console.log(response)
+
         localStorage.setItem('token', response.data.token)
         this.user = response.data.user
-      } catch (err) {
-        localStorage.removeItem('token')
-        this.user = null
 
-        console.error('Error registering:', err)
-        return err
+        return {
+          data: response.data,
+          code: 'ok',
+        }
+      } catch (err) {
+        return {
+          errors: Object.values(err.response.data.errors).flat(),
+          code: 'error',
+        }
       }
     },
     
     async updateUser(data) {
       try {
         const response = await fetch.post('/user', data)
-        console.log(response)
         this.user = response.data.user
+
+        return {
+          data: response.data,
+          code: 'ok',
+        }
       } catch (err) {
-        console.error('Error updating user:', err)
-        return err
+        return {
+          errors: Object.values(err.response.data.errors).flat(),
+          code: 'error',
+        }
       }
     },
 

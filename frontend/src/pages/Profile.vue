@@ -33,9 +33,11 @@
         </div>
       </div>
     </div>
+    <Modal :open="open" :title="title" :descriptions="descriptions" :buttonText="buttonText" :iconType="iconType"/>
   </div>
 </template>
 <script setup>
+import Modal from '../components/molecules/Modal.vue'
 import { useAuth } from '../store/auth.js'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
@@ -48,13 +50,33 @@ const { user } = storeToRefs(store)
 
 const password = ref('')
 
+const open = ref(false)
+const title = ref('')
+const descriptions = ref([])
+const buttonText = ref('OK')
+const iconType = ref('')
+
 const onSubmit = async () => {
-  const update = await updateUser({
+  const response = await updateUser({
     name: store.user.name,
     email: store.user.email,
     password: password.value,
   })
 
-  console.log(update)
+  if (response.code === 'ok') {
+    open.value = true
+    title.value = 'Success'
+    descriptions.value = ['Your account has been updated.']
+  } else {
+    open.value = true
+    title.value = 'Error'
+    descriptions.value = response.errors
+    iconType.value = 'danger'
+  }
+
+  setTimeout(() => {
+    open.value = false
+    iconType.value = ''
+  }, 2000)
 }
 </script>

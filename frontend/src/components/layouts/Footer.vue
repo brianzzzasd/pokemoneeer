@@ -21,13 +21,11 @@
   import { defineComponent, h } from 'vue'
   
   const navigation = {
-    main: [
-      { name: 'About', href: '#' },
-    ],
+    main: [],
     social: [
       {
         name: 'Instagram',
-        href: '#',
+        href: 'https://www.instagram.com/ninjalovesmangoes/',
         icon: defineComponent({
           render: () =>
             h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
