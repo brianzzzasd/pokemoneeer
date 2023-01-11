@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('users', [UserController::class, 'users']);
+
 Route::group(['prefix' => 'auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
@@ -35,12 +37,12 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
     Route::group(['prefix' => 'pokemon'], function() {
         Route::get('/', [PokemonController::class, 'pokemon']);
-        Route::post('favorite', [PokemonController::class, 'addFavorite']);
-        Route::post('hate', [PokemonController::class, 'addHate']);
-        Route::post('like', [PokemonController::class, 'addLike']);
+        Route::post('favorite/{id}', [PokemonController::class, 'addFavorite']);
+        Route::post('hate/{id}', [PokemonController::class, 'addHate']);
+        Route::post('like/{id}', [PokemonController::class, 'addLike']);
 
-        Route::delete('favorite/{id}', [PokemonController::class, 'deleteFavorite']);
-        Route::delete('hate/{id}', [PokemonController::class, 'deleteHate']);
-        Route::delete('like/{id}', [PokemonController::class, 'deleteLike']);
+        Route::delete('favorite/{favorite}', [PokemonController::class, 'deleteFavorite']);
+        Route::delete('hate/{hate}', [PokemonController::class, 'deleteHate']);
+        Route::delete('like/{like}', [PokemonController::class, 'deleteLike']);
     });
 });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Pokemons\Favorite;
 use App\Models\Pokemons\Hate;
 use App\Models\Pokemons\Like;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,13 +46,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function hate()
+    public function hates()
     {
         return $this->hasMany(Hate::class);
     }
 
-    public function like()
+    public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function favorite()
+    {
+        return $this->hasOne(Favorite::class);
     }
 }

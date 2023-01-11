@@ -41,7 +41,9 @@ class UserController extends Controller
         $offset = $request->offset ?? 0;
         $limit = $request->limit ?? 20;
 
-        $users = DB::table('users')->skip($offset)->take($limit)->get();
+        $users = User::query()
+            ->with(['hates', 'likes', 'favorite'])
+            ->skip($offset)->take($limit)->get();
 
         return response()->json([
             'status' => true,

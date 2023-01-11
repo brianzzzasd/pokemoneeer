@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class PokemonController extends Controller
 {
+    /**
+     * Get Pokemon
+     * @param Request $request
+     *
+     * return Response
+     */
     public function pokemon(Request $request)
     {
         $offset = $request->offset ?? 0;
@@ -21,11 +27,26 @@ class PokemonController extends Controller
         return new PokemonCollection($pokemons);
     }
 
-    public function addHate(Request $request)
+    /**
+     * Add Hated Pokemon
+     * @param $id
+     *
+     * return Response
+     */
+    public function addHate($id)
     {
-       $hate = Hate::create([
-            'user_id' => $request->user_id,
-            'pokemon_id' => $request->pokemon_id
+        $user = auth('sanctum')->user();
+
+        if ($user->hates->count() === 3) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You can only hate 3 pokemons',
+            ], 400);
+        }
+
+        $hate = Hate::create([
+            'user_id' => $user->id,
+            'pokemon_id' => $id
         ]);
 
         if ($hate) {
@@ -36,11 +57,26 @@ class PokemonController extends Controller
         }
     }
 
-    public function addLike(Request $request)
+    /**
+     * Add Like
+     * @param $id
+     *
+     * return Response
+     */
+    public function addLike($id)
     {
-       $like = Like::create([
-            'user_id' => $request->user_id,
-            'pokemon_id' => $request->pokemon_id
+        $user = auth('sanctum')->user();
+
+        if ($user->likes->count() === 3) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You can only like 3 pokemons',
+            ], 400);
+        }
+
+        $like = Like::create([
+            'user_id' => $user->id,
+            'pokemon_id' => $id
         ]);
 
         if ($like) {
@@ -51,10 +87,14 @@ class PokemonController extends Controller
         }
     }
 
-    public function deleteHate(Hate $id)
+    /**
+     * Delete Hate
+     * @param Hate $hate
+     *
+     * return Response
+     */
+    public function deleteHate(Hate $hate)
     {
-        $hate = Hate::find($id);
-
         if ($hate->each->delete()) {
             return response()->json([
                 'status' => true,
@@ -63,10 +103,14 @@ class PokemonController extends Controller
         }
     }
 
-    public function deleteLike(Like $id)
+    /**
+     * Delete Like
+     * @param Like $like
+     *
+     * return Response
+     */
+    public function deleteLike(Like $like)
     {
-        $like = Like::find($id);
-
         if ($like->each->delete()) {
             return response()->json([
                 'status' => true,
@@ -75,12 +119,27 @@ class PokemonController extends Controller
         }
     }
 
-    public function addFavorite(Request $request)
+    /**
+     * Add Favorite
+     * @param $id
+     *
+     * return Response
+     */
+    public function addFavorite($id)
     {
-       $favorite = Favorite::create([
-            'user_id' => $request->user_id,
-            'pokemon_id' => $request->pokemon_id
+        $user = auth('sanctum')->user();
+
+        $favorite = Favorite::create([
+            'user_id' => $user->id,
+            'pokemon_id' => $id
         ]);
+
+        if ($user->favorite->count() === 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You can only favorite 1 pokemon',
+            ], 400);
+        }
 
         if ($favorite) {
             return response()->json([
@@ -90,6 +149,12 @@ class PokemonController extends Controller
         }
     }
 
+    /**
+     * Delete Favorite
+     * @param Favorite $id
+     *
+     * return Response
+     */
     public function deleteFavorite(Favorite $id)
     {
         $favorite = Favorite::find($id);
@@ -102,6 +167,14 @@ class PokemonController extends Controller
         }
     }
 
+    /**
+     * Basic Response
+     * @param $status
+     * @param $message
+     * @param int $code
+     *
+     * return Response
+     */
     public function basicResponse($status, $message, $code = 200)
     {
         return response()->json([

@@ -46,8 +46,10 @@ const loadData = async $state => {
         </div>
       </div>
     </div>
-    <div>
-      <Card />
+    <div class="flex flex-col">
+      <div class="flex flex-wrap">
+        <div class="w-1/3 mx-2"><Card /></div>
+      </div>
     </div>
   </div>
 </template>

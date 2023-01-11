@@ -34,5 +34,29 @@ export const usePokemon = defineStore('pokemon-store', {
 
       return response
     },
+
+    async addHate(id) {
+      try {
+        const response = await fetch.post(`pokemon/hate/${id}`)
+      } catch (err) {
+        console.error('Error hating Pokemon:', err);
+      }
+    },
+
+    async addLike(id) {
+      try {
+        const response = await fetch.post(`pokemon/like/${id}`)
+      } catch (err) {
+        console.error('Error liking Pokemon:', err);
+      }
+    },
+
+    async addFavorite(id) {
+      try {
+        const response = await fetch.post(`pokemon/favorite/${id}`)
+      } catch (err) {
+        console.error('Error choosing favorite pokemon:', err);
+      }
+    },
   }
 })
