@@ -74,7 +74,7 @@ export const useAuth = defineStore('auth-store', {
       this.fetching = true
 
       try {
-        const response = await fetch.get('/auth/user')
+        const response = await fetch.get('/user')
         this.user = response.data.user
       } catch (err) {
         this.user = null
