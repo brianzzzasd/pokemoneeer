@@ -3,7 +3,7 @@ export default {
   name: 'TypeBadge',
   props: {
     type: String,
-    default: grass,
+    default: 'grass',
   },
   methods: {
     getClass() {
