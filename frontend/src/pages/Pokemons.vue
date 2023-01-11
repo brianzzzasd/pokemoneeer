@@ -11,7 +11,7 @@ import InfiniteLoading from '../components/organisims/InfiniteLoading.vue'
 const store = usePokemon()
 
 const query = ref('')
-const { filteredPokemons } = storeToRefs(store)
+const { filteredPokemons, filtering } = storeToRefs(store)
 const { fetchPokemons, addHate, addLike, addFavorite } = store
 
 const open = ref(false)
@@ -86,17 +86,20 @@ const favorite = async (id) => {
 
 const loadData = async ($state) => {
   $state.loading()
-  try {
-    const offset = filteredPokemons.value.length
-    const response = await fetchPokemons(offset)
+  console.log(filtering.value)
+  if (!filtering.value) {
+    try {
+      const offset = filteredPokemons.value.length
+      const response = await fetchPokemons(offset)
 
-    if (response.length < 20)
-      $state.complete()
-    else
-      $state.loaded()
-  }
-  catch (error) {
-    $state.error()
+      if (response.length < 20)
+        $state.complete()
+      else
+        $state.loaded()
+    }
+    catch (error) {
+      $state.error()
+    }
   }
 }
 </script>
@@ -128,11 +131,11 @@ const loadData = async ($state) => {
             <input
               id="search"
               v-model="query"
-              @keyup.enter="search()"
               name="search"
               class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
               placeholder="Search"
               type="search"
+              @keyup.enter="search()"
             >
           </div>
         </div>
@@ -258,7 +261,10 @@ const loadData = async ($state) => {
                   </td>
                 </tr>
               </tbody>
-              <InfiniteLoading @infinite="loadData" />
+              <InfiniteLoading
+                v-if="!filtering"
+                @infinite="loadData"
+              />
             </table>
           </div>
         </div>

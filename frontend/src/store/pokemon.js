@@ -6,6 +6,7 @@ export const usePokemon = defineStore('pokemon-store', {
     pokemons: [],
     filteredPokemons: [],
     fetching: false,
+    filtering: false,
   }),
 
   getters: {
@@ -40,11 +41,12 @@ export const usePokemon = defineStore('pokemon-store', {
 
     async filter(query) {
       if (query === '') {
+        this.filtering = false
         this.filteredPokemons = this.pokemons
 
         return
       }
-
+      this.filtering = true
       this.filteredPokemons = this.pokemons.filter((pokemon) => {
         return (
           pokemon.name.toLowerCase().includes(query.toLowerCase())
