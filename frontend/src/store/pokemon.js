@@ -4,6 +4,7 @@ import fetch from '../plugins/fetch'
 export const usePokemon = defineStore('pokemon-store', {
   state: () => ({
     pokemons: [],
+    filteredPokemons: [],
     fetching: false,
   }),
 
@@ -24,6 +25,7 @@ export const usePokemon = defineStore('pokemon-store', {
 
       try {
         this.pokemons.push(...response.data.data)
+        this.filteredPokemons = this.pokemons
       }
       catch (err) {
         this.pokemons = []
@@ -34,6 +36,20 @@ export const usePokemon = defineStore('pokemon-store', {
       this.fetching = false
 
       return response
+    },
+
+    async filter(query) {
+      if (query === '') {
+        this.filteredPokemons = this.pokemons
+
+        return
+      }
+
+      this.filteredPokemons = this.pokemons.filter((pokemon) => {
+        return (
+          pokemon.name.toLowerCase().includes(query.toLowerCase())
+        )
+      })
     },
 
     async addHate(id) {

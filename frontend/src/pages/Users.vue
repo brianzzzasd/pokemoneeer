@@ -12,10 +12,6 @@ const page = ref(0)
 const { users } = storeToRefs(store)
 const { fetchUsers } = store
 
-// onMounted(async () => {
-//   await fetchUsers(0);
-// });
-
 const loadData = async ($state) => {
   $state.loading()
   try {

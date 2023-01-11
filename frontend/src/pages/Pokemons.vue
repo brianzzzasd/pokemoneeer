@@ -10,8 +10,8 @@ import InfiniteLoading from '../components/organisims/InfiniteLoading.vue'
 
 const store = usePokemon()
 
-const page = ref(0)
-const { pokemons } = storeToRefs(store)
+const query = ref('')
+const { filteredPokemons } = storeToRefs(store)
 const { fetchPokemons, addHate, addLike, addFavorite } = store
 
 const open = ref(false)
@@ -19,6 +19,10 @@ const title = ref('')
 const descriptions = ref([])
 const buttonText = ref('OK')
 const iconType = ref('')
+
+const search = () => {
+  store.filter(query.value)
+}
 
 const hate = async (id) => {
   open.value = true
@@ -83,7 +87,7 @@ const favorite = async (id) => {
 const loadData = async ($state) => {
   $state.loading()
   try {
-    const offset = pokemons.value.length
+    const offset = filteredPokemons.value.length
     const response = await fetchPokemons(offset)
 
     if (response.length < 20)
@@ -123,6 +127,8 @@ const loadData = async ($state) => {
             </div>
             <input
               id="search"
+              v-model="query"
+              @keyup.enter="search()"
               name="search"
               class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
               placeholder="Search"
@@ -170,7 +176,7 @@ const loadData = async ($state) => {
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
                 <tr
-                  v-for="pokemon in pokemons"
+                  v-for="pokemon in filteredPokemons"
                   :key="pokemon.email"
                 >
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
