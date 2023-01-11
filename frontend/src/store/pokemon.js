@@ -2,12 +2,10 @@ import fetch from '../plugins/fetch';
 import { defineStore } from 'pinia'
 
 export const usePokemon = defineStore('pokemon-store', {
-  state: () => {
-    return {
-      pokemons: [],
-      fetching: false
-    }
-  },
+  state: () => ({
+    pokemons: [],
+    fetching: false
+  }),
 
   getters: {
     results(state) {

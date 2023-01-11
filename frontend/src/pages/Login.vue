@@ -1,36 +1,27 @@
 <script setup>
-import { ref } from 'vue';
-
+import { ref } from 'vue'
 import { useAuth } from '../store/auth.js'
-import { storeToRefs } from "pinia";
+import { storeToRefs } from "pinia"
+import { useRouter } from 'vue-router'
 
-const store = useAuth();
+const router = useRouter()
+const store = useAuth()
 
-const { user } = storeToRefs(store);
-const { login, logout } = store;
+const { user } = storeToRefs(store)
+const { login, logout, requestCookie } = store
 
-const email = ref('');
-const password = ref('');
+const email = ref('')
+const password = ref('')
 
-const loginForm = ref(null);
+const loginForm = ref(null)
 
 const onSubmit = async () => {
-  await login(email.value, password.value);
+  await login(email.value, password.value)
+
   if (user.value) {
-    $router.push({ name: 'Home' });
+    router.push({ name: 'Pokemons' })
   }
-};
-
-const onLogout = async () => {
-  await logout();
-  $router.push({ name: 'Login' });
-};
-
-const onReset = () => {
-  loginForm.value.reset();
-};
-
-
+}
 </script>
 <template>
 <div class="flex h-screen">
@@ -44,24 +35,22 @@ const onReset = () => {
 
       <div class="mt-8">
         <div class="mt-6">
-          <form action="#" method="POST" class="space-y-6">
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
               <div class="mt-1">
-                <input id="email" name="email" type="email" autocomplete="email" required class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
+                <input v-model="email" id="email" name="email" type="email" autocomplete="email" required class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
               </div>
             </div>
 
-            <div class="space-y-1">
+            <div class="space-y-1 mt-5">
               <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
               <div class="mt-1">
-                <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
+                <input v-model="password" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500 sm:text-sm">
               </div>
             </div>
-            <div>
-              <button type="submit" class="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">Sign in</button>
+            <div class="mt-8">
+              <button @click="onSubmit" class="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">Sign in</button>
             </div>
-          </form>
         </div>
       </div>
     </div>

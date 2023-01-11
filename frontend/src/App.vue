@@ -2,6 +2,19 @@
 import "./assets/tailwind.css";
 import NavBar from './components/layouts/NavBar.vue'
 import Footer from './components/layouts/Footer.vue'
+
+import { useAuth } from './store/auth.js'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
+
+onMounted(() => {
+  const store = useAuth()
+  const { user } = storeToRefs(store)
+  const { fetchUser } = store
+
+  fetchUser()
+})
+
 </script>
 
 <template>

@@ -48,4 +48,18 @@ class UserController extends Controller
             'users' => $users,
         ]);
     }
+
+    /**
+     * Get User
+     * @param Request $request
+     *
+     * return Response
+     */
+    public function user()
+    {
+        return response()->json([
+            'status' => true,
+            'user' => auth('sanctum')->user(),
+        ]);
+    }
 }

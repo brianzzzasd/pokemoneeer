@@ -28,16 +28,19 @@ Route::group(['prefix' => 'auth'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::post('user', [UserController::class, 'createUser']);
-Route::get('users', [UserController::class, 'users']);
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::group(['prefix' => 'user'], function() {
+        Route::get('/', [UserController::class, 'user']);
+    });
 
-Route::group(['prefix' => 'pokemon'], function() {
-    Route::get('/', [PokemonController::class, 'pokemon']);
-    Route::post('favorite', [PokemonController::class, 'addFavorite']);
-    Route::post('hate', [PokemonController::class, 'addHate']);
-    Route::post('like', [PokemonController::class, 'addLike']);
+    Route::group(['prefix' => 'pokemon'], function() {
+        Route::get('/', [PokemonController::class, 'pokemon']);
+        Route::post('favorite', [PokemonController::class, 'addFavorite']);
+        Route::post('hate', [PokemonController::class, 'addHate']);
+        Route::post('like', [PokemonController::class, 'addLike']);
 
-    Route::delete('favorite/{id}', [PokemonController::class, 'deleteFavorite']);
-    Route::delete('hate/{id}', [PokemonController::class, 'deleteHate']);
-    Route::delete('like/{id}', [PokemonController::class, 'deleteLike']);
+        Route::delete('favorite/{id}', [PokemonController::class, 'deleteFavorite']);
+        Route::delete('hate/{id}', [PokemonController::class, 'deleteHate']);
+        Route::delete('like/{id}', [PokemonController::class, 'deleteLike']);
+    });
 });

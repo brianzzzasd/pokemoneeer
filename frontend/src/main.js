@@ -5,28 +5,44 @@ import App from './App.vue'
 
 const store = createPinia()
 
+const routes = [
+    { 
+        path: '/login', 
+        name: 'Login',
+        component: () => import('./pages/Login.vue'),
+        meta: {
+            hideNavbar: true,
+        }
+    },
+    { 
+        path: '/',
+        name: 'Pokemons',
+        component: () => import('./pages/Pokemons.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    { 
+        path: '/users',
+        name: 'Users',
+        component: () => import('./pages/Users.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+    },
+]
+
 const router = createRouter({
     history: createWebHistory(),
-    routes: [
-        { 
-            path: '/login', 
-            name: 'Login',
-            component: () => import('./pages/Login.vue'),
-            meta: {
-                hideNavbar: true,
-            }
-        },
-        { 
-            path: '/',
-            name: 'Pokemons',
-            component: () => import('./pages/Pokemons.vue') 
-        },
-        { 
-            path: '/users',
-            name: 'Users',
-            component: () => import('./pages/Users.vue')
-        },
-    ],
+    routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !localStorage.getItem('token')) {
+        next({ name: 'Login' })
+    } else {
+        next()
+    }
 })
 
 const app = createApp(App)
