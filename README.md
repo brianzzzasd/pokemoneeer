@@ -9,6 +9,9 @@
 - HeadlessUI
 - Pinia
 
+### Presinstalls
+- Should have Vite and NPM/PNPM installed in the machine.
+
 After Cloning: 
 
 ### Backend Setup
