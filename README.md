@@ -33,6 +33,8 @@ Database name: <b>pokemoneeer</b> (or whatever you want, just update the .env da
 ```bash
 cd ../frontend
 
+cp .env.example .env
+
 pnpm i && pnpm run dev
 ```
 or if you don't have pnpm you can:
